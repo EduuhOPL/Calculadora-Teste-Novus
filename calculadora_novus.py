@@ -102,9 +102,10 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
         </div>
     """, unsafe_allow_html=True)
 
-    # 6. DISPARO PARA O n8n (Opcional - Próximo passo)
-
+    # 6. Aviso de Teste (Opcional - Próximo passo)
+st.caption("⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada dos documentos contábeis da sua empresa.")
     # Aqui poderíamos enviar os dados para o seu comercial via Webhook
+
 
 
 

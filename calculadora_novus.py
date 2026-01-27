@@ -75,8 +75,15 @@ with st.container():
 st.write("")
 if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # LÓGICA TRIBUTÁRIA (Exemplo de simulação de economia)
-    # Aqui você pode refinar com o pessoal do Fiscal
-    fator_economia = 0.085 # Média de 8.5% de economia encontrada pela Novus
+    # Lógica de porcentagem dinâmica por regime
+    if regime == !"Simples Nacional":
+       fator_economia = 0.08 # 8%
+elif regime == "Lucro Presumido":
+       fator_economia = 0.05 # 5%
+elif regime == "Lucro Real":
+    fator_economia = 0.023 # 2.3%
+else:
+    fator_economia = 0.05 # Valor padão para "Não Sei"
     total_economia = faturamento * fator_economia
     
     # 5. EXIBIÇÃO DO RESULTADO (Sem balões, foco no número)
@@ -92,6 +99,8 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
         </div>
     """, unsafe_allow_html=True)
 
+st.caption("⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada dos documentos contábeis da sua empresa.")
     # 6. DISPARO PARA O n8n (Opcional - Próximo passo)
 
     # Aqui poderíamos enviar os dados para o seu comercial via Webhook
+

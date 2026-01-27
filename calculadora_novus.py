@@ -73,8 +73,10 @@ with st.container():
         regime = st.selectbox("Regime Tributário Atual", ["Simples Nacional", "Lucro Presumido", "Lucro Real", "Não sei"])
 
 st.write("")
+# --- LOGICA DO BOTÃO (SUBSTITUA A PARTIR DAQUI) ---
+
 if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
-    # 1. Lógica de porcentagem (Tudo identado dentro do botão)
+    # 1. Definição do fator (Tudo alinhado dentro do IF)
     if regime == "Simples Nacional":
         fator_economia = 0.08
     elif regime == "Lucro Presumido":
@@ -84,10 +86,10 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     else:
         fator_economia = 0.05
     
-    # 2. O cálculo deve ficar fora do if/else acima, mas ainda dentro do botão
+    # 2. Cálculo (Também dentro do IF)
     total_economia = faturamento * fator_economia
     
-    # 3. A exibição também deve estar dentro do botão
+    # 3. Exibição ÚNICA do Card (Também dentro do IF)
     st.markdown(f"""
         <div class="result-card">
             <p style="font-size: 14px; color: #6C757D; margin-bottom: 5px;">
@@ -98,11 +100,10 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
             <p style="color: #6C757D;">Isso representa <b>R$ {total_economia*12:,.2f}</b> de economia por ano.</p>
             <hr>
             <h4 style="color: #004A8D;">Psicologia do Ricardo: Números concretos.</h4>
-            <p>Não fazemos promessas, entregamos eficiência de caixa real.</p>
-            <a href="https://wa.me/5532999201923?text=Olá! Usei a calculadora e vi que posso economizar R$ {total_economia:,.2f}. Quero uma análise!" class="cta-button">AGENDAR ANÁLISE COM ESPECIALISTA</a>
+            <p style="color: #495057;">Não fazemos promessas, entregamos eficiência de caixa real.</p>
+            <a href="https://wa.me/5532999201923?text=Olá! Usei a calculadora e vi que posso economizar R$ {total_economia:,.2f} no regime {regime}. Quero uma análise!" class="cta-button">AGENDAR ANÁLISE COM ESPECIALISTA</a>
         </div>
     """, unsafe_allow_html=True)
-    
     # 5. EXIBIÇÃO DO RESULTADO (Sem balões, foco no número)
     st.markdown(f"""
         <div class="result-card">
@@ -119,6 +120,7 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # 6. DISPARO PARA O n8n (Opcional - Próximo passo)
 
     # Aqui poderíamos enviar os dados para o seu comercial via Webhook
+
 
 
 

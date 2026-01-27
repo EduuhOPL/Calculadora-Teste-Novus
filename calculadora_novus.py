@@ -89,21 +89,6 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # 2. Cálculo (Também dentro do IF)
     total_economia = faturamento * fator_economia
     
-    # 3. Exibição ÚNICA do Card (Também dentro do IF)
-    st.markdown(f"""
-        <div class="result-card">
-            <p style="font-size: 14px; color: #6C757D; margin-bottom: 5px;">
-                Cálculo baseado em alíquota média de <b>{fator_economia*100}%</b> para o regime <b>{regime}</b>.
-            </p>
-            <p style="font-size: 18px; color: #495057;">Empresas com o seu perfil economizam em média:</p>
-            <div class="economy-value">R$ {total_economia:,.2f} / mês</div>
-            <p style="color: #6C757D;">Isso representa <b>R$ {total_economia*12:,.2f}</b> de economia por ano.</p>
-            <hr>
-            <h4 style="color: #004A8D;">Psicologia do Ricardo: Números concretos.</h4>
-            <p style="color: #495057;">Não fazemos promessas, entregamos eficiência de caixa real.</p>
-            <a href="https://wa.me/5532999201923?text=Olá! Usei a calculadora e vi que posso economizar R$ {total_economia:,.2f} no regime {regime}. Quero uma análise!" class="cta-button">AGENDAR ANÁLISE COM ESPECIALISTA</a>
-        </div>
-    """, unsafe_allow_html=True)
     # 5. EXIBIÇÃO DO RESULTADO (Sem balões, foco no número)
     st.markdown(f"""
         <div class="result-card">
@@ -120,6 +105,7 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # 6. DISPARO PARA O n8n (Opcional - Próximo passo)
 
     # Aqui poderíamos enviar os dados para o seu comercial via Webhook
+
 
 
 

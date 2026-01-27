@@ -92,12 +92,12 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # 5. EXIBIÇÃO DO RESULTADO (Sem balões, foco no número)
     st.markdown(f"""
         <div class="result-card">
-            <p style="font-size: 18px; color: #495057;">Empresas com o seu perfil economizam em média:</p>
+            <p style="font-size: 20px; color: #495057;">Empresas com o seu perfil economizam em média:</p>
             <div class="economy-value">R$ {total_economia:,.2f} / mês</div>
             <p style="color: #000000;">Isso representa <b>R$ {total_economia*12:,.2f}</b> de economia por ano.</p>
             <hr>
             <4>
-            <p style="color: #004A8D;">Não fazemos promessas, entregamos eficiência em nossos processos.</p>
+            <p style="color: #004A8D; font-size: 20px;">Não fazemos promessas, entregamos eficiência em nossos processos.</p>
             <a href="https://wa.me/5532999201923?text=Olá! Usei a calculadora e vi que posso economizar em média R$ {total_economia:,.2f}. Quero uma análise!" class="cta-button">AGENDAR ANÁLISE COM ESPECIALISTA</a>
         </div>
     """, unsafe_allow_html=True)
@@ -105,6 +105,7 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # 6. DISPARO PARA O n8n (Opcional - Próximo passo)
 
     # Aqui poderíamos enviar os dados para o seu comercial via Webhook
+
 
 
 

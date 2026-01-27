@@ -96,7 +96,7 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
             <div class="economy-value">R$ {total_economia:,.2f} / mês</div>
             <p style="color: #6C757D;">Isso representa <b>R$ {total_economia*12:,.2f}</b> de economia por ano.</p>
             <hr>
-        
+            <h4>Psicologia do Ricardo: Números concretos.</h4>
             <a href="https://wa.me/5532999201923?text=Olá! Usei a calculadora e vi que posso economizar em média R$ {total_economia:,.2f}. Quero uma análise!" class="cta-button">AGENDAR ANÁLISE COM ESPECIALISTA</a>
         </div>
     """, unsafe_allow_html=True)

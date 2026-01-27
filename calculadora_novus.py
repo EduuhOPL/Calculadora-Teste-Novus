@@ -88,9 +88,10 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
             <hr>
             <h4>Psicologia do Ricardo: Números concretos.</h4>
             <p>Não fazemos promessas, entregamos eficiência de caixa.</p>
-            <a href="https://wa.me/SEU_NUMERO_AQUI?text=Olá! Usei a calculadora e vi que posso economizar R$ {total_economia:,.2f}. Quero uma análise!" class="cta-button">AGENDAR ANÁLISE COM ESPECIALISTA</a>
+            <a href="https://wa.me/5532999201923?text=Olá! Usei a calculadora e vi que posso economizar R$ {total_economia:,.2f}. Quero uma análise!" class="cta-button">AGENDAR ANÁLISE COM ESPECIALISTA</a>
         </div>
     """, unsafe_allow_html=True)
 
     # 6. DISPARO PARA O n8n (Opcional - Próximo passo)
+
     # Aqui poderíamos enviar os dados para o seu comercial via Webhook

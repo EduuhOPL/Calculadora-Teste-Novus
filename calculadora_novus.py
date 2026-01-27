@@ -99,9 +99,9 @@ else:
         </div>
     """, unsafe_allow_html=True)
 
-st.caption("⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada dos documentos contábeis da sua empresa.")
     # 6. DISPARO PARA O n8n (Opcional - Próximo passo)
 
     # Aqui poderíamos enviar os dados para o seu comercial via Webhook
+
 
 

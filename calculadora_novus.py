@@ -76,7 +76,7 @@ st.write("")
 if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # LÓGICA TRIBUTÁRIA (Exemplo de simulação de economia)
     # Lógica de porcentagem dinâmica por regime
-    if regime == !"Simples Nacional":
+    if regime == "Simples Nacional":
        fator_economia = 0.08 # 8%
 elif regime == "Lucro Presumido":
        fator_economia = 0.05 # 5%
@@ -103,4 +103,5 @@ st.caption("⚠️ Nota: Este cálculo é uma estimativa baseada em médias de m
     # 6. DISPARO PARA O n8n (Opcional - Próximo passo)
 
     # Aqui poderíamos enviar os dados para o seu comercial via Webhook
+
 

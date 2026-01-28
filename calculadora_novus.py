@@ -63,7 +63,7 @@ else:
 st.markdown("<h2 style='text-align: center; font-size: 24px;'>Descubra quanto você pode economizar em impostos</h2>", unsafe_allow_html=True)
 st.write("---")
 
-# 4. FORMULÁRIO DE ANÁLISE TRIBUTÁRIA
+# --- 4. FORMULÁRIO DE ANÁLISE TRIBUTÁRIA ---
 with st.container():
     st.markdown("### 📝 Dados de Contato")
     col_nome, col_email = st.columns(2)
@@ -75,98 +75,70 @@ with st.container():
     telefone = st.text_input("WhatsApp (com DDD)")
 
     st.write("---")
-    st.markdown("### 🏭 Perfil da Empresa")
-    faturamento = st.number_input("Qual o seu faturamento mensal médio?", min_value=0.0, step=1000.0, format="%.2f")
+    st.markdown("### 📊 Perfil da Empresa")
+    faturamento_mensal = st.number_input("Qual o seu faturamento mensal médio? (R$)", min_value=0.0, step=1000.0, format="%.2f")
     
-    # Substituindo funcionários por Segmento
+    # 1. Substituindo funcionários por Segmento
     segmento = st.selectbox("Qual o Segmento da sua empresa?", ["Comércio", "Serviço", "Indústria"])
 
-# --- LÓGICA DO BOTÃO (CORRIGIDA) ---
+st.write("")
 
-if st.button("GERAR ANÁLISE TRIBUTÁRIA", use_container_width=True):
-    if not nome or not email or not telefone or faturamento == 0:
-        st.error("⚠️ Por favor, preencha todos os campos para gerar o diagnóstico.")
+# --- LÓGICA DO BOTÃO ---
+if st.button("GERAR DIAGNÓSTICO TRIBUTÁRIO", use_container_width=True):
+    if not nome or not email or not telefone or faturamento_mensal <= 0:
+        st.error("⚠️ Por favor, preencha todos os campos para liberar o diagnóstico.")
+    
+    elif "@" not in email or "." not in email:
+        st.error("📧 Por favor, insira um e-mail válido.")
+    
     else:
-        # LÓGICA DE ANÁLISE (Inteligência Artificial da Novus)
-        # Regra simplificada: Simples Nacional até 400k/mês (4.8M ano)
-        if faturamento <= 400000:
+        # 2. Lógica de Enquadramento (Baseada no Faturamento Anual)
+        faturamento_anual = faturamento_mensal * 12
+        
+        if faturamento_anual <= 81000:
+            regime_sugerido = "MEI (Microempreendedor Individual)"
+            cor_regime = "#28A745" # Verde
+        elif faturamento_anual <= 48000000: # Conforme seu critério de 48M
             regime_sugerido = "Simples Nacional"
-            recomendacao = "Sua empresa se enquadra no limite de faturamento do Simples Nacional, o que geralmente simplifica o recolhimento."
-        
-        # Indústria ou faturamento muito alto tende ao Lucro Real
-        elif segmento == "Indústria" or faturamento > 1000000:
-            regime_sugerido = "Lucro Real"
-            recomendacao = "Pelo volume de faturamento ou segmento industrial, o Lucro Real pode oferecer créditos tributários vantajosos."
-        
-        # Caso contrário, Lucro Presumido
-        else:
+            cor_regime = "#004A8D" # Azul Novus
+        elif faturamento_anual <= 78000000:
             regime_sugerido = "Lucro Presumido"
-            recomendacao = "O Lucro Presumido pode ser a melhor opção para otimizar a carga tributária sobre sua margem de lucro."
+            cor_regime = "#FF7A00" # Laranja
+        else:
+            regime_sugerido = "Lucro Real"
+            cor_regime = "#DC3545" # Vermelho (Complexidade Alta)
 
-        # 5. EXIBIÇÃO DO RESUMO DA ANÁLISE
-        st.markdown(f"""
-            <div class="result-card">
-                <h3 style="color: #004A8D;">📋 Resumo do Diagnóstico</h3>
-                <div style="text-align: left; margin-bottom: 20px; color: #404040;">
-                    <p><b>Cliente:</b> {nome}</p>
-                    <p><b>Segmento:</b> {segmento}</p>
-                    <p><b>Faturamento Mensal:</b> R$ {faturamento:,.2f}</p>
-                </div>
-                <hr>
-                <p style="font-size: 18px; color: #495057;">Regime Sugerido:</p>
-                <div class="economy-value" style="color: #004A8D; font-size: 32px;">{regime_sugerido}</div>
-                <p style="color: #6C757D; padding: 10px;">{recomendacao}</p>
-                <hr>
-                <a href="https://wa.me/5532999201923?text=Olá! Gere o diagnóstico para {nome} ({segmento}). O regime sugerido foi {regime_sugerido}. Quero validar!" class="cta-button">VALIDAR DIAGNÓSTICO COM ESPECIALISTA</a>
-            </div>
-        """, unsafe_allow_html=True)
-
-        # Envio para o n8n (Atualizado com os novos campos)
+        # 3. Disparo para o n8n (Atualizado)
         try:
             webhook_url = st.secrets["WEBHOOK_URL"]
             dados_lead = {
                 "nome": nome,
                 "email": email,
                 "telefone": telefone,
-                "faturamento": faturamento,
+                "faturamento_mensal": faturamento_mensal,
+                "faturamento_anual": faturamento_anual,
                 "segmento": segmento,
                 "regime_sugerido": regime_sugerido
             }
             requests.post(webhook_url, json=dados_lead, timeout=5)
         except:
             pass
-        
-        # 3. Preparação dos dados para o Lead (Dicionário)
-        dados_lead = {
-            "nome": nome,
-            "email": email,
-            "telefone": telefone,
-            "faturamento": faturamento,
-            "regime": regime,
-            "economia_mensal": total_economia,
-            "economia_anual": total_economia * 12
-        }
 
-        # 4. Envio para o n8n usando o Secret (Correção do SyntaxError)
-        try:
-            webhook_url = st.secrets["WEBHOOK_URL"] 
-            requests.post(webhook_url, json=dados_lead, timeout=5)
-        except Exception as e:
-            # O erro de envio não trava a tela do cliente, apenas loga no servidor
-            print(f"Erro no webhook: {e}")
-
-        # 5. EXIBIÇÃO DO RESULTADO (Card Único)
+        # 4. EXIBIÇÃO DO RESUMO (Informações Resumidas)
         st.markdown(f"""
             <div class="result-card">
-                <p style="font-size: 14px; color: #6C757D; margin-bottom: 5px;">
-                    Olá <b>{nome}</b>! Veja o potencial de economia para sua empresa:
-                </p>
-                <div class="economy-value">R$ {total_economia:,.2f} / mês</div>
-                <p style="color: #6C757D;">Isso representa <b>R$ {total_economia*12:,.2f}</b> de economia por ano.</p>
+                <h3 style="color: #004A8D;">📋 Resumo da Análise Tributária</h3>
+                <div style="text-align: left; background-color: #ffffff; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <p style="color: #404040; margin: 5px 0;"><b>Nome:</b> {nome}</p>
+                    <p style="color: #404040; margin: 5px 0;"><b>Segmento:</b> {segmento}</p>
+                    <p style="color: #404040; margin: 5px 0;"><b>Faturamento Mensal:</b> R$ {faturamento_mensal:,.2f}</p>
+                    <p style="color: #404040; margin: 5px 0;"><b>Faturamento Anual Est.:</b> R$ {faturamento_anual:,.2f}</p>
+                </div>
                 <hr>
-                <h4 style="color: #004A8D; font-size: 15px;">⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada.</h4>
-                <a href="https://wa.me/5532999201923?text=Olá! Meu nome é {nome} e usei a calculadora. Vi que posso economizar R$ {total_economia:,.2f} no regime {regime}." class="cta-button">FALAR COM ESPECIALISTA AGORA</a>
+                <p style="font-size: 16px; color: #495057; margin-bottom: 0;">Regime Tributário Sugerido:</p>
+                <div style="color: {cor_regime}; font-size: 28px; font-weight: bold; margin: 10px 0;">{regime_sugerido}</div>
+                <p style="font-size: 13px; color: #6C757D;">*Análise baseada nos limites de faturamento informados.</p>
+                <hr>
+                <a href="https://wa.me/5532999201923?text=Olá! Gere o diagnóstico para {nome}. Faturamento de R$ {faturamento_mensal:,.2f} no segmento {segmento}. O regime sugerido foi {regime_sugerido}." class="cta-button">VALIDAR COM UM CONTADOR NOVUS</a>
             </div>
         """, unsafe_allow_html=True)
-
-

@@ -118,7 +118,7 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
             </div>
         """, unsafe_allow_html=True)
     
-        if "@" not in email or "." not in email:
+    if "@" not in email or "." not in email:
            st.error("📧 Por favor, insira um e-mail válido.")
     elif len(telefone) < 10:
         st.error("📱 Por favor, insira um WhatsApp com DDD.")
@@ -135,4 +135,5 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
 
         # Exibição do resultado
         st.markdown(f""" <div class="result-card"> ... </div> """, unsafe_allow_html=True) 
+
 

@@ -118,15 +118,21 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
             </div>
         """, unsafe_allow_html=True)
     
-    # 2. Cálculo (Também dentro do IF)
-    total_economia = faturamento * fator_economia
+        if "@" not in email or "." not in email:
+           st.error("📧 Por favor, insira um e-mail válido.")
+    elif len(telefone) < 10:
+        st.error("📱 Por favor, insira um WhatsApp com DDD.")
+    else:
+         # Se chegou aqui, os dados estão OK, então fazemos o cálculo e o envio
+         total_economia = faturamento * fator_economia
+        
+        # Envio para o n8n usando o Secret
+        try:
+            webhook_url = st.secrets["WEBHOOK_URL"]
+            requests.post(webhook_url, json=dados_lead, timeout=5)
+        except Exception as e:
+            print(f"Erro no webhook: {e}")
 
-    if "@" not in email or "." not in email:
-    st.error("📧 Por favor, insira um e-mail válido.")
-elif len(telefone) < 10:
-    st.error("📱 Por favor, insira um WhatsApp com DDD (ex: 32999999999).")
-else:
-    # Aqui sim você dispara o requests.post
+        # Exibição do resultado
+        st.markdown(f""" <div class="result-card"> ... </div> """, unsafe_allow_html=True) 
 
-    # O Streamlit busca automaticamente o valor que você salvou nos Secrets
-    webhook_url = st.secrets["WEBHOOK_URL"]

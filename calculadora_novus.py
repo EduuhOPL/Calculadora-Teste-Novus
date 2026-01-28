@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import requests
 
 # 1. CONFIGURAÇÃO DA PÁGINA
 st.set_page_config(
@@ -120,6 +121,7 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # 2. Cálculo (Também dentro do IF)
     total_economia = faturamento * fator_economia
     
+
 
 
 

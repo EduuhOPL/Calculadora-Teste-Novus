@@ -128,12 +128,13 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
         
         # Envio para o n8n usando o Secret
     try: webhook_url = st.secrets["WEBHOOK_URL"] 
-         requests.post(webhook_url, json=dados_lead, timeout=5)
+    requests.post(webhook_url, json=dados_lead, timeout=5)
     except Exception as e:
             print(f"Erro no webhook: {e}")
 
         # Exibição do resultado
         st.markdown(f""" <div class="result-card"> ... </div> """, unsafe_allow_html=True) 
+
 
 
 

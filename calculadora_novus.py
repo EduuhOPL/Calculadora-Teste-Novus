@@ -112,7 +112,7 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
                 <div class="economy-value">R$ {total_economia:,.2f} / mês</div>
                 <p style="color: #6C757D;">Isso representa <b>R$ {total_economia*12:,.2f}</b> de economia por ano.</p>
                 <hr>
-                <h4 style="color: #004A8D; font-size: 12px;">⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada dos documentos contábeis da sua empresa..</h4>
+                <h4 style="color: #004A8D; font-size: 15px;">⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada dos documentos contábeis da sua empresa..</h4>
                 <a href="https://wa.me/5532999201923?text=Olá! Meu nome é {nome} e usei a calculadora. Vi que posso economizar R$ {total_economia:,.2f} no regime {regime}." class="cta-button">FALAR COM ESPECIALISTA AGORA</a>
             </div>
         """, unsafe_allow_html=True)
@@ -123,6 +123,7 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # 6. Aviso de Teste (Opcional - Próximo passo)
 st.caption("⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada dos documentos contábeis da sua empresa.")
     # Aqui poderíamos enviar os dados para o seu comercial via Webhook
+
 
 
 

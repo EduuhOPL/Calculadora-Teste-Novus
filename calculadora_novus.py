@@ -129,10 +129,10 @@ if st.button("GERAR DIAGNÓSTICO TRIBUTÁRIO", use_container_width=True):
             <div class="result-card">
                 <h3 style="color: #004A8D;">📋 Resumo da Análise Tributária</h3>
                 <div style="text-align: left; background-color: #ffffff; padding: 15px; border-radius: 10px; margin: 15px 0;">
-                    <p style="color: #404040; margin: 5px 0;"><b>Nome:</b> {nome}</p>
-                    <p style="color: #404040; margin: 5px 0;"><b>Segmento:</b> {segmento}</p>
-                    <p style="color: #404040; margin: 5px 0;"><b>Faturamento Mensal:</b> R$ {faturamento_mensal:,.2f}</p>
-                    <p style="color: #404040; margin: 5px 0;"><b>Faturamento Anual Est.:</b> R$ {faturamento_anual:,.2f}</p>
+                    <p style="color: #404040; margin: 10px 0;"><b>Nome:</b> {nome}</p>
+                    <p style="color: #404040; margin: 10px 0;"><b>Segmento:</b> {segmento}</p>
+                    <p style="color: #404040; margin: 10px 0;"><b>Faturamento Mensal:</b> R$ {faturamento_mensal:,.2f}</p>
+                    <p style="color: #404040; margin: 10px 0;"><b>Faturamento Anual Est.:</b> R$ {faturamento_anual:,.2f}</p>
                 </div>
                 <hr>
                 <p style="font-size: 16px; color: #495057; margin-bottom: 0;">Regime Tributário Sugerido:</p>
@@ -142,3 +142,4 @@ if st.button("GERAR DIAGNÓSTICO TRIBUTÁRIO", use_container_width=True):
                 <a href="https://wa.me/5532999201923?text=Olá! Gere o diagnóstico para {nome}. Faturamento de R$ {faturamento_mensal:,.2f} no segmento {segmento}. O regime sugerido foi {regime_sugerido}." class="cta-button">VALIDAR COM UM CONTADOR NOVUS</a>
             </div>
         """, unsafe_allow_html=True)
+

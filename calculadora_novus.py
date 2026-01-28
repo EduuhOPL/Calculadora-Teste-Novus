@@ -62,8 +62,19 @@ else:
 st.markdown("<h2 style='text-align: center; font-size: 24px;'>Descubra quanto você pode economizar em impostos</h2>", unsafe_allow_html=True)
 st.write("---")
 
-# 4. FORMULÁRIO DE ENTRADA
+# 4. FORMULÁRIO DE ENTRADA E CAPTURA DE LEAD
 with st.container():
+    st.markdown("### 📝 Informe seus dados para o cálculo")
+    col_nome, col_email = st.columns(2)
+    with col_nome:
+        nome = st.text_input("Seu Nome completo")
+    with col_email:
+        email = st.text_input("Seu melhor E-mail")
+    
+    telefone = st.text_input("WhatsApp (com DDD)")
+
+    st.write("---")
+    st.markdown("### 📊 Dados da Empresa")
     faturamento = st.number_input("Qual o seu faturamento mensal médio?", min_value=0.0, step=1.0, format="%.2f")
     
     col1, col2 = st.columns(2)
@@ -73,18 +84,38 @@ with st.container():
         regime = st.selectbox("Regime Tributário Atual", ["Simples Nacional", "Lucro Presumido", "Lucro Real", "Não sei"])
 
 st.write("")
-# --- LOGICA DO BOTÃO (SUBSTITUA A PARTIR DAQUI) ---
 
+# LÓGICA DO BOTÃO
 if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
-    # 1. Definição do fator (Tudo alinhado dentro do IF)
-    if regime == "Simples Nacional":
-        fator_economia = 0.08
-    elif regime == "Lucro Presumido":
-        fator_economia = 0.05
-    elif regime == "Lucro Real":
-        fator_economia = 0.023
+    # Validação simples: Só calcula se nome e email estiverem preenchidos
+    if not nome or not email or not telefone:
+        st.error("⚠️ Por favor, preencha seu nome, e-mail e telefone para liberar o resultado.")
     else:
-        fator_economia = 0.05
+        # Lógica de porcentagem dinâmica
+        if regime == "Simples Nacional":
+            fator_economia = 0.08
+        elif regime == "Lucro Presumido":
+            fator_economia = 0.05
+        elif regime == "Lucro Real":
+            fator_economia = 0.023
+        else:
+            fator_economia = 0.05
+        
+        total_economia = faturamento * fator_economia
+        
+        # 5. EXIBIÇÃO DO RESULTADO
+        st.markdown(f"""
+            <div class="result-card">
+                <p style="font-size: 14px; color: #6C757D; margin-bottom: 5px;">
+                    Olá <b>{nome}</b>! Veja o potencial de economia para sua empresa:
+                </p>
+                <div class="economy-value">R$ {total_economia:,.2f} / mês</div>
+                <p style="color: #6C757D;">Isso representa <b>R$ {total_economia*12:,.2f}</b> de economia por ano.</p>
+                <hr>
+                <h4 style="color: #004A8D;">Compromisso Novus: Números concretos.</h4>
+                <a href="https://wa.me/5532999201923?text=Olá! Meu nome é {nome} e usei a calculadora. Vi que posso economizar R$ {total_economia:,.2f} no regime {regime}." class="cta-button">FALAR COM ESPECIALISTA AGORA</a>
+            </div>
+        """, unsafe_allow_html=True)
     
     # 2. Cálculo (Também dentro do IF)
     total_economia = faturamento * fator_economia
@@ -105,6 +136,7 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # 6. Aviso de Teste (Opcional - Próximo passo)
 st.caption("⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada dos documentos contábeis da sua empresa.")
     # Aqui poderíamos enviar os dados para o seu comercial via Webhook
+
 
 
 

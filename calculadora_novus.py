@@ -120,9 +120,7 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     # 2. Cálculo (Também dentro do IF)
     total_economia = faturamento * fator_economia
     
-    # 6. Aviso de Teste (Opcional - Próximo passo)
-st.caption("⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada dos documentos contábeis da sua empresa.")
-    # Aqui poderíamos enviar os dados para o seu comercial via Webhook
+
 
 
 

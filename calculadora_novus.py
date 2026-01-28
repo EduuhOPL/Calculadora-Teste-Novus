@@ -86,13 +86,21 @@ with st.container():
 
 st.write("")
 
-# LÓGICA DO BOTÃO
+# --- LÓGICA DO BOTÃO (CORRIGIDA) ---
+
 if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
-    # Validação simples: Só calcula se nome e email estiverem preenchidos
+    # 1. Validação de Dados
     if not nome or not email or not telefone:
         st.error("⚠️ Por favor, preencha seu nome, e-mail e telefone para liberar o resultado.")
+    
+    elif "@" not in email or "." not in email:
+        st.error("📧 Por favor, insira um e-mail válido.")
+    
+    elif len(telefone) < 10:
+        st.error("📱 Por favor, insira um WhatsApp com DDD.")
+    
     else:
-        # Lógica de porcentagem dinâmica
+        # 2. Lógica de porcentagem dinâmica
         if regime == "Simples Nacional":
             fator_economia = 0.08
         elif regime == "Lucro Presumido":
@@ -101,10 +109,29 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
             fator_economia = 0.023
         else:
             fator_economia = 0.05
-        
+
         total_economia = faturamento * fator_economia
         
-        # 5. EXIBIÇÃO DO RESULTADO
+        # 3. Preparação dos dados para o Lead (Dicionário)
+        dados_lead = {
+            "nome": nome,
+            "email": email,
+            "telefone": telefone,
+            "faturamento": faturamento,
+            "regime": regime,
+            "economia_mensal": total_economia,
+            "economia_anual": total_economia * 12
+        }
+
+        # 4. Envio para o n8n usando o Secret (Correção do SyntaxError)
+        try:
+            webhook_url = st.secrets["WEBHOOK_URL"] 
+            requests.post(webhook_url, json=dados_lead, timeout=5)
+        except Exception as e:
+            # O erro de envio não trava a tela do cliente, apenas loga no servidor
+            print(f"Erro no webhook: {e}")
+
+        # 5. EXIBIÇÃO DO RESULTADO (Card Único)
         st.markdown(f"""
             <div class="result-card">
                 <p style="font-size: 14px; color: #6C757D; margin-bottom: 5px;">
@@ -113,32 +140,8 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
                 <div class="economy-value">R$ {total_economia:,.2f} / mês</div>
                 <p style="color: #6C757D;">Isso representa <b>R$ {total_economia*12:,.2f}</b> de economia por ano.</p>
                 <hr>
-                <h4 style="color: #004A8D; font-size: 15px;">⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada dos documentos contábeis da sua empresa..</h4>
+                <h4 style="color: #004A8D; font-size: 15px;">⚠️ Nota: Este cálculo é uma estimativa baseada em médias de mercado e não substitui uma análise técnica detalhada.</h4>
                 <a href="https://wa.me/5532999201923?text=Olá! Meu nome é {nome} e usei a calculadora. Vi que posso economizar R$ {total_economia:,.2f} no regime {regime}." class="cta-button">FALAR COM ESPECIALISTA AGORA</a>
             </div>
         """, unsafe_allow_html=True)
-    
-    if "@" not in email or "." not in email:
-           st.error("📧 Por favor, insira um e-mail válido.")
-    elif len(telefone) < 10:
-        st.error("📱 Por favor, insira um WhatsApp com DDD.")
-    else:
-         # Se chegou aqui, os dados estão OK, então fazemos o cálculo e o envio
-         total_economia = faturamento * fator_economia
-        
-        # Envio para o n8n usando o Secret
-    try: webhook_url = st.secrets["WEBHOOK_URL"] 
-    requests.post(webhook_url, json=dados_lead, timeout=5)
-    except Exception as e:
-            print(f"Erro no webhook: {e}")
-
-        # Exibição do resultado
-        st.markdown(f""" <div class="result-card"> ... </div> """, unsafe_allow_html=True) 
-
-
-
-
-
-
-
 

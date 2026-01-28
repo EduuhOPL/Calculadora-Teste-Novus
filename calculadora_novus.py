@@ -120,24 +120,13 @@ if st.button("CALCULAR ECONOMIA REAL", use_container_width=True):
     
     # 2. Cálculo (Também dentro do IF)
     total_economia = faturamento * fator_economia
-    
 
+    if "@" not in email or "." not in email:
+    st.error("📧 Por favor, insira um e-mail válido.")
+elif len(telefone) < 10:
+    st.error("📱 Por favor, insira um WhatsApp com DDD (ex: 32999999999).")
+else:
+    # Aqui sim você dispara o requests.post
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # O Streamlit busca automaticamente o valor que você salvou nos Secrets
+    webhook_url = st.secrets["WEBHOOK_URL"]
